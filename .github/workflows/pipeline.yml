@@ -32,5 +32,6 @@ jobs:
             - name: Trigger deployment
               env:
                 deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+              if: ${{ github.event_name == 'push'}}
               run: |
                 curl "$deploy_url"

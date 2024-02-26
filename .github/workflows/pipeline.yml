@@ -32,7 +32,7 @@ jobs:
             - name: Trigger deployment
               env:
                 deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-              if: ${{ github.event_name == 'push'}}
+              if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip') }}
               run: |
                 curl "$deploy_url"
     
@@ -47,7 +47,7 @@ jobs:
           with:
             fetch-depth: 0
         - name: Bumb version and push tag
-          if: ${{ github.event_name == 'push'}}
+          if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip')}}
           env: 
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             DEFAULT_BUMP: 'patch'

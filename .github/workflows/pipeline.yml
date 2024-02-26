@@ -74,7 +74,7 @@ jobs:
                         "elements": [
                           {
                             "type": "image",
-                            "image_url": ${{ github.event.sender.avatar_url }},
+                            "image_url": "${{ github.event.sender.avatar_url }}",
                             "alt_text": "images"
                           },
                           {

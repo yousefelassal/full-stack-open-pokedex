@@ -35,3 +35,20 @@ jobs:
               if: ${{ github.event_name == 'push'}}
               run: |
                 curl "$deploy_url"
+    
+    tag_release:
+      needs: [simple_deployment_pipeline]
+      runs-on: ubuntu-20.04
+      permissions:
+        contents: write
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Bumb version and push tag
+          if: ${{ github.event_name == 'push'}}
+          env: 
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            DEFAULT_BUMP: 'patch'
+          uses: anothrNick/github-tag-action@1.67.0
